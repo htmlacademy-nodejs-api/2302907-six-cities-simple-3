@@ -17,7 +17,7 @@ export type OfferType = {
   guestsCount: number;
   price: number;
   goods: GoodsType[];
-  hostID: number;
+  hostID: string;
   commentsCount: number;
   coordsOffer: CoordsType;
 };

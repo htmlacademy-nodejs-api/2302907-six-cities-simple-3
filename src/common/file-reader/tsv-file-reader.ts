@@ -66,7 +66,7 @@ export default class TSVFileReader implements FileReaderInterface {
           guestsCount: +guestsCount,
           price: +price,
           goods: goods.split(',\n') as GoodsType[],
-          hostID: +hostID,
+          hostID,
           commentsCount: +commentsCount,
           coordsOffer: coords,
         };
