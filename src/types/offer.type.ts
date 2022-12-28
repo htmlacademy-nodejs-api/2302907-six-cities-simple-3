@@ -1,6 +1,6 @@
-import {CoordsType} from './coord-type.js';
-import {GoodsType} from './goods-type.js';
-import {ObjectType} from './object-type.js';
+import {LocationType} from './location.type.js';
+import {GoodsType} from './goods.type.js';
+import {ObjectType} from './object.type.js';
 
 export type OfferType = {
   id: number;
@@ -19,5 +19,5 @@ export type OfferType = {
   goods: GoodsType[];
   hostID: string;
   commentsCount: number;
-  coordsOffer: CoordsType;
+  locationOffer: LocationType;
 };

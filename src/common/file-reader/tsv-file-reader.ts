@@ -1,9 +1,9 @@
 import {FileReaderInterface} from './file-reader.interface.js';
 import {readFileSync} from 'fs';
-import {OfferType} from '../../types/offer-type.js';
-import {CoordsType} from '../../types/coord-type.js';
-import {ObjectType} from '../../types/object-type.js';
-import {GoodsType} from '../../types/goods-type.js';
+import {OfferType} from '../../types/offer.type.js';
+import {LocationType} from '../../types/location.type.js';
+import {ObjectType} from '../../types/object.type.js';
+import {GoodsType} from '../../types/goods.type.js';
 
 export default class TSVFileReader implements FileReaderInterface {
   private rawData = '';
@@ -40,13 +40,13 @@ export default class TSVFileReader implements FileReaderInterface {
           goods,
           hostID,
           commentsCount,
-          coordsOffer
+          locationOffer
         ] = line.split('\t');
 
 
-        const [latitude, longitude] = coordsOffer.split(', ');
+        const [latitude, longitude] = locationOffer.split(', ');
 
-        const coords: CoordsType = {
+        const location: LocationType = {
           latitude: +latitude,
           longitude: +longitude,
         };
@@ -68,7 +68,7 @@ export default class TSVFileReader implements FileReaderInterface {
           goods: goods.split('; ') as GoodsType[],
           hostID,
           commentsCount: +commentsCount,
-          coordsOffer: coords,
+          locationOffer: location,
         };
 
       });

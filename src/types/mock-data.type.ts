@@ -1,4 +1,4 @@
-import {CoordsType} from './coord-type.js';
+import {LocationType} from './location.type.js';
 import {CityType} from './city-type.js';
 
 
@@ -13,7 +13,7 @@ export type MockDataType = {
     isPremium: boolean[],
     types: string[],
     goods: string[],
-    coordsOffer: CoordsType[],
+    coordsOffer: LocationType[],
   },
   users: {
     emails: string[],
