@@ -1,3 +1,8 @@
-export type ObjectType = 'apartment' |'house' |'room' |'hotel';
+export enum ObjectType {
+  Apartment = 'apartment',
+  House = 'house',
+  Room = 'room',
+  Hotel = 'hotel',
+  }
 
 
