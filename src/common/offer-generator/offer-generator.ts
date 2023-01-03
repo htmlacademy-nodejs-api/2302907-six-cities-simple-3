@@ -32,20 +32,20 @@ export default class OfferGenerator implements OfferGeneratorInterface {
 
   public generate(): string {
     const offersData = this.mockData.offers;
-    const id = generateRandomValue(0, 10000);
+    const id = generateRandomValue(1, 10000).toString();
     const title = getRandomItem<string>(offersData.titles);
     const description = getRandomItem<string>(offersData.descriptions);
     const city = getRandomItem<CityType>(offersData.cities);
     const cityName = city.name;
-    const locationOffer = city.location;
+    const locationOffer = `${city.location.latitude}, ${city.location.longitude}`;
     const imgPreview = getRandomItem<string>(offersData.imgPreviews);
     const images = getRandomItems<string>(offersData.images).join('; ');
     const isPremium = getRandomItem<boolean>(offersData.isPremium);
     const rating = generateRandomValue(RESTRICTIONS.rating.min * 10, RESTRICTIONS.rating.max * 10) / 10;
     const type = getRandomItem<string>(offersData.types);
-    const roomsCount = generateRandomValue(RESTRICTIONS.roomsCount.min, RESTRICTIONS.roomsCount.max);
-    const guestsCount = generateRandomValue(RESTRICTIONS.guestsCount.min, RESTRICTIONS.guestsCount.max);
-    const price = generateRandomValue(RESTRICTIONS.price.min, RESTRICTIONS.price.max);
+    const roomsCount = generateRandomValue(RESTRICTIONS.roomsCount.min, RESTRICTIONS.roomsCount.max).toString();
+    const guestsCount = generateRandomValue(RESTRICTIONS.guestsCount.min, RESTRICTIONS.guestsCount.max).toString();
+    const price = generateRandomValue(RESTRICTIONS.price.min, RESTRICTIONS.price.max).toString();
     const goods = getRandomItems<string>(offersData.goods).join('; ');
     const hostID = getRandomItem<string>(this.mockData.users.emails);
     const publicDate = dayjs()
@@ -55,7 +55,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
 
     return [
       id, title, description, publicDate, cityName,
-      imgPreview, images, isPremium, rating, type,
+      imgPreview, images, isPremium, rating.toString(), type,
       roomsCount, guestsCount, price, goods, hostID, locationOffer
     ].join('\t');
   }
