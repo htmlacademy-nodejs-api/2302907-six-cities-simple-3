@@ -21,7 +21,8 @@ export default class GenerateCommand implements CliCommandInterface {
     const offerGeneratorString = new OfferGenerator(this.initialData);
 
     for (let i = 0; i < offerCount; i++) {
-      await appendFile(filepath, `${offerGeneratorString.generate()}\n`, 'utf-8');
+      const row = offerGeneratorString.generate();
+      await appendFile(filepath, `${row}\n`, 'utf-8');
     }
 
     console.log(`File ${filepath} was created`);
