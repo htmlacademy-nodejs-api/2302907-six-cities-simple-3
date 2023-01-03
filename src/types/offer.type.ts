@@ -7,7 +7,7 @@ export type OfferType = {
   title: string;
   description: string;
   publicDate: Date;
-  city: string;
+  cityName: string;
   imgPreview: string;
   images: string[];
   isPremium: boolean;
@@ -18,6 +18,5 @@ export type OfferType = {
   price: number;
   goods: GoodsType[];
   hostID: string;
-  commentsCount: number;
   locationOffer: LocationType;
 };
