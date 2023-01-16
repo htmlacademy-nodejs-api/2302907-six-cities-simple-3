@@ -25,7 +25,7 @@ const RESTRICTIONS = {
     first: 1,
     last: 7,
   }
-};
+} as const;
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockDataType) {}

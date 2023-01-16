@@ -1,5 +1,5 @@
-export const generateRandomValue = (min:number, max: number, numAfterDigit = 0) =>
-  +((Math.random() * (max - min)) + min).toFixed(numAfterDigit);
+export const generateRandomValue = (min:number, max: number, numAfterDigit = 0): number =>
+  Number.parseInt(((Math.random() * (max - min)) + min).toFixed(numAfterDigit), 10);
 
 export const getRandomItems = <T>(items: T[]):T[] => {
   const startPosition = generateRandomValue(0, items.length - 1);
