@@ -1,6 +1,6 @@
-import {CoordsType} from './coord-type.js';
+import {LocationType} from './location.type.js';
 
 export type CityType = {
   name: string;
-  coord: CoordsType;
+  location: LocationType;
 }

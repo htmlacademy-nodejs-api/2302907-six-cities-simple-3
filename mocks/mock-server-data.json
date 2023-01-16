@@ -1,0 +1,175 @@
+{
+  "api": {
+    "offers": {
+      "titles": [
+        "Small room - charm, Paris 6ème",
+        "Modern studio with balcony 2 min from Eiffel Tower",
+        "Une chambre en ville, and breakfast-petit déjeuner",
+        "Lovely bedroom Heart of Paris St-Germain-des-Prés",
+        "Attractive studio in a charming cul-de-sac.",
+        "Refurbished flat, central Haut Marais",
+        "Studio cosy Center Marais equiped confortable",
+        "Cosy flat near Champs de Mars/Eiffel Tower"
+      ],
+      "descriptions": [
+        "Confortable studio de 20m carré avec balcon ensoleillé, proche de Paris, avec supermarché de proximité en bas de l'immeuble.",
+        "I let one of the small rooms of the tiny apartment where I live on rue de Seine, just under the roof of the house, ideally located to visit Paris (St Germain des Prés, Louvre, Latin quarter...). Tall people may bump their head at times (1820 oak beams!), XL persons may feel a lack of space in the shower. Simple amenities, in working condition. Bathroom shared with me.",
+        "Je vous propose une grande chambre, sobre et confortable, avec accès à la salle de bain, et la cuisine.  Avant toute réservation, veuillez prendre connaissance des heures d'accueil, qui sont de 18h à 23h.",
+        "Discover Paris staying in our charming and typically 17th century old Parisian flat with its authentic beams and stones. Ideally located in the very heart of Paris in the famous Arty, Literary and Jazzy Saint-Germain-des-Prés area, our flat is next to the Louvre, the Seine river, Notre-Dame and the Jardin du Luxembourg so you can't be more central.",
+        "Located in the center of a cul-de-sac typical for the 14th arrondissement, near numerous shops and restaurants, you will reap the benefits of the calm and the charm of this lodging, completely equipped with easy access to the main attractions of the capital.",
+        "Our fully renovated studio is located in the Haut Marais (Notre Dame de Nazareth street), a very central area to visit Paris. Subways and buses are at 2 minutes (metro Republic, Temple, Art and Métier). They will take you to the main tourist places in a few minutes.",
+        "Calm, bright, clean, well equipped, in the center of Paris, in one of the most beautiful historical district, close to Place des Vosges, Bastille, centre George Pompidou… Very lively district with many bars, restaurants and shops. Central, you may easily walk to many sites: Notre Dame, le Louvre… Very functional, with fully equipped kitchen, refrigerator, micro wave oven, coffee machine, washing and drying machine, tv, wi fi, music...",
+        "I rent my flat located in the 15th area of Paris, near Eiffeil Tower, Montparnasse, Invalides, Champs-Elysées and other great spot to visit! A lot of shops and restaurants will be around you, but also the La Motte Picquet metro station, easy to go everywhere!"
+      ],
+      "cities": [
+        {
+          "name": "Paris",
+          "location": {
+            "latitude": 48.85661,
+            "longitude": 2.351499
+          }
+        },
+        {
+          "name": "Cologne",
+          "location": {
+            "latitude": 50.938361,
+            "longitude": 6.959974
+          }
+        },
+        {
+          "name": "Brussels",
+          "location": {
+            "latitude": 50.846557,
+            "longitude": 4.351697
+          }
+        },
+        {
+          "name": "Amsterdam",
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168
+          }
+        },
+        {
+          "name": "Hamburg",
+          "location": {
+            "latitude": 53.550341,
+            "longitude": 10.000654
+          }
+        },
+        {
+          "name": "Dusseldorf",
+          "location": {
+            "latitude": 51.225402,
+            "longitude": 6.776314
+          }
+        }
+      ],
+      "imgPreviews": [
+        "1-preview.jpg",
+        "2-preview.jpg",
+        "3-preview.jpg",
+        "4-preview.jpg",
+        "5-preview.jpg",
+        "6-preview.jpg",
+        "7-preview.jpg",
+        "8-preview.jpg"
+      ],
+      "images": [
+        "bedroom.jpg",
+        "kitchen.jpg",
+        "bedroom2.jpg",
+        "bathroom.jpg",
+        "hall.jpg",
+        "bedroom3.jpg",
+        "house.jpg",
+        "window.jpg"
+      ],
+      "isPremium": [
+        true,
+        false
+      ],
+      "types": [
+        "apartment",
+        "house",
+        "room",
+        "hotel"
+      ],
+      "goods": [
+        "Breakfast",
+        "Air conditioning",
+        "Laptop friendly workspace",
+        "Baby seat",
+        "Washer",
+        "Towels",
+        "Fridge"
+      ],
+      "locationsOffer": [
+        {
+          "latitude": 48.85661,
+          "longitude": 2.351499
+        },
+        {
+          "latitude": 50.938361,
+          "longitude": 6.959974
+        },
+        {
+          "latitude": 50.846557,
+          "longitude": 4.351697
+        },
+        {
+          "latitude": 52.370216,
+          "longitude": 4.895168
+        },
+        {
+          "latitude": 53.550341,
+          "longitude": 10.000654
+        },
+        {
+          "latitude": 51.225402,
+          "longitude": 6.776314
+        }
+      ]
+    },
+    "users": {
+      "emails": [
+        "floriane@gmail.com",
+        "nicolashost@gmail.com",
+        "caroline@gmail.com",
+        "silvia@gmail.com",
+        "juletdav@gmail.com",
+        "tonyhost@gmail.com",
+        "annette@gmail.com",
+        "lucahost@gmail.com"
+      ],
+      "names": [
+        "Floriane",
+        "Nicolas",
+        "Caroline",
+        "Silvia",
+        "Juletdav",
+        "Tony",
+        "Annette",
+        "Luca"
+      ],
+      "avatars": [
+        "Floriane.jpg",
+        "Nicolas.jpg",
+        "Caroline.jpg",
+        "Silvia.jpg",
+        "Juletdav.jpg",
+        "Tony.jpg",
+        "Annette.jpg",
+        "Luca.jpg"
+      ],
+      "passwords": [
+        "123",
+        "111"
+      ],
+      "userTypes": [
+        "обычный",
+        "pro"
+      ]
+    }
+  }
+}

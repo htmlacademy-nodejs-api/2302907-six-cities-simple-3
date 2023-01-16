@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов (простой)»
 
 * Студент: [Лира Хольм](https://up.htmlacademy.ru/nodejs-api/3/user/2302907).
-* Наставник: [Владислав Поклонский](https://htmlacademy.ru/profile/id2210683).
+* Наставник: [Глеб Клецков](https://htmlacademy.ru/profile/id1487865).
 
 ---
 
