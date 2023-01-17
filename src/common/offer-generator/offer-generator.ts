@@ -1,7 +1,7 @@
 import {OfferGeneratorInterface} from './offer-generator.interface.js';
 import {MockDataType} from '../../types/mock-data.type.js';
 import {generateRandomValue, getRandomItem, getRandomItems} from '../../utils/random.js';
-import {CityType} from '../../types/city-type.js';
+import {CityType} from '../../types/city.type.js';
 import dayjs from 'dayjs';
 
 const RESTRICTIONS = {
