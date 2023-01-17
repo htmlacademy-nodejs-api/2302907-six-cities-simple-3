@@ -1,4 +1,7 @@
 import convict from 'convict';
+import validator from 'convict-format-with-validator';
+
+convict.addFormats(validator);
 
 export type ConfigSchema = {
   DB_HOST: string;
