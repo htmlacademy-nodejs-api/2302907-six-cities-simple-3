@@ -1,5 +1,5 @@
 import {LocationType} from './location.type.js';
-import {CityType} from './city-type.js';
+import {CityType} from './city.type.js';
 
 
 export type MockDataType = {
