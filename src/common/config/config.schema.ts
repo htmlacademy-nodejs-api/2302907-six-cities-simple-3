@@ -5,6 +5,10 @@ convict.addFormats(validator);
 
 export type ConfigSchema = {
   DB_HOST: string;
+  DB_NAME: string;
+  DB_PORT: number;
+  DB_USER: string;
+  DB_PASSWORD: string;
   PORT: number;
   SALT: string;
 };
@@ -15,6 +19,30 @@ export const configSchema = convict<ConfigSchema>({
     format: 'ipaddress',
     env: 'DB_HOST',
     default: '127.0.0.1',
+  },
+  DB_NAME: {
+    doc: 'Database name (MongoDB)',
+    format: 'String',
+    env: 'DB_NANE',
+    default: 'six-cities-simple-3-restapi',
+  },
+  DB_PORT: {
+    doc: 'Port to connect to the database (MongoDB)',
+    format: 'port',
+    env: 'DB_PORT',
+    default: 27017,
+  },
+  DB_USER: {
+    doc: 'Username to connect to the database (MongoDB)',
+    format: 'String',
+    env: 'DB_USER',
+    default: null,
+  },
+  DB_PASSWORD: {
+    doc: 'Password to connect to the database (MongoDB)',
+    format: 'String',
+    env: 'DB_PASSWORD',
+    default: null,
   },
   PORT: {
     doc: 'Port for incoming connection',
