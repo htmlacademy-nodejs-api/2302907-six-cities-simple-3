@@ -1,6 +1,6 @@
-enum userRole {
-  'обычный',
-  'pro',
+enum UserRole {
+  Usual = 'обычный',
+  Pro = 'pro',
 }
 
 export type UserType = {
@@ -8,5 +8,5 @@ export type UserType = {
   email: string;
   avatarURL: string;
   password: string;
-  type: userRole
+  type: UserRole
 }
