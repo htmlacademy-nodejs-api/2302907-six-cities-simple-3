@@ -5,10 +5,12 @@ import {Component} from './types/component.types.js';
 import {Container} from 'inversify';
 import {applicationContainer} from './app/application.container.js';
 import {userContainer} from './modules/user/user.container.js';
+import {cityContainer} from './modules/city/city.container.js';
 
 const mainContainer = Container.merge(
   applicationContainer,
-  userContainer
+  userContainer,
+  cityContainer,
 );
 
 async function bootstrap() {
