@@ -5,6 +5,8 @@ import {inject, injectable} from 'inversify';
 import {Component} from '../types/component.types.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 import {getURI} from '../utils/db.js';
+import {UserModel} from '../modules/user/user.entity.js';
+import {UserRole} from '../types/user.type.js';
 
 @injectable()
 export default class Application {
@@ -26,5 +28,14 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
+
+    const user = UserModel.create({
+      name: 'test',
+      email: 'test2@email.local',
+      avatarURL: 'img/test.jpg',
+      password: 'test123',
+      type: UserRole.Pro,
+    });
+    console.log(user);
   }
 }
