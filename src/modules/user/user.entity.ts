@@ -29,8 +29,8 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
 
   @prop({
     required: true,
-    minLength: [1, 'Имя не заполнено'],
-    maxLength: [15, 'Слишком длинное имя, максимум 15 символов'],
+    minlength: [1, 'Имя не заполнено'],
+    maxlength: [15, 'Слишком длинное имя, максимум 15 символов'],
   })
   public name!: string;
 
