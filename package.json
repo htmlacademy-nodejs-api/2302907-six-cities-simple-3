@@ -10,7 +10,7 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
-    "start:dev": "npm run ts ./src/main.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start:dev": "nodemon",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -19,6 +19,7 @@
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3123"
   },
   "devDependencies": {
+    "@typegoose/typegoose": "9.13.2",
     "@types/convict": "6.1.1",
     "@types/convict-format-with-validator": "6.0.2",
     "@types/node": "18.11.13",
@@ -27,6 +28,7 @@
     "eslint": "8.29.0",
     "eslint-config-htmlacademy": "8.0.0",
     "json-server": "^0.17.1",
+    "nodemon": "2.0.20",
     "pino-pretty": "^9.1.1",
     "rimraf": "3.0.2",
     "ts-node": "10.9.1",
@@ -45,6 +47,7 @@
     "dotenv": "16.0.3",
     "got": "^12.5.3",
     "inversify": "6.0.1",
+    "mongoose": "6.7.2",
     "pino": "8.7.0",
     "reflect-metadata": "0.1.13"
   }
