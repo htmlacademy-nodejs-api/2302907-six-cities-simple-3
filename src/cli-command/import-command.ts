@@ -43,7 +43,7 @@ export default class ImportCommand implements CliCommandInterface {
 
   private async saveOffer(offer: OfferType) {
 
-    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, {name: offer.cityName, location: {latitude: 0, longitude: 0}});
+    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, {name: offer.cityName, location: [0, 0]});
     const user = await this.userService.findOrCreate({
       name: 'test',
       email: offer.hostID,

@@ -5,12 +5,10 @@ import {LocationType} from '../../../types/location.type.js';
 export default class CreateOfferDto {
   public title!: string;
   public description!: string;
-  public publicDate!: Date;
   public cityName!: string;
   public imgPreview!: string;
   public images!: string[];
   public isPremium!: boolean;
-  public rating!: number;
   public type!: ObjectType;
   public roomsCount!: number;
   public guestsCount!: number;
