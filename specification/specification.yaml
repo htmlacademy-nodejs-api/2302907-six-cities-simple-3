@@ -14,8 +14,6 @@ tags:
     description: Действия с объявлениями
   - name: users
     description: Действия с пользователями
-  - name: cities
-    description: Действия с городами
   - name: comments
     description: Действия с комментариями
 paths:
@@ -30,7 +28,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/comment'
+              $ref: '#/components/schemas/createComment'
         required: true
 
       responses:
@@ -39,7 +37,52 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/comment'
+                $ref: '#/components/schemas/createComment'
+  /comments/:
+    get:
+      tags:
+        - comments
+      summary: Получение списка комментариев к предложению по аренде
+
+      requestBody:
+        description: Идентификатор предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerID'
+        required: true
+
+      responses:
+        '200':
+          description: Список комментариев получен
+          content:
+            application/json:
+              schema:
+
+
+
+  /offers/create:
+    post:
+      tags:
+        - offers
+      summary: создание нового предложения
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        '201':
+          description: Предложение создано. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '409':
+          description: Пользователь с таким email уже существует.
 
   /users/register:
     post:
@@ -95,7 +138,7 @@ paths:
 
 components:
   schemas:
-    comment:
+    createComment:
       type: object
 
       properties:
@@ -109,6 +152,20 @@ components:
           type: number
         }
         userID: {
+          type: string
+        }
+
+    comments:
+      type: array
+
+      properties:
+
+
+    offerID:
+      type: object
+
+      properties:
+        id: {
           type: string
         }
 
