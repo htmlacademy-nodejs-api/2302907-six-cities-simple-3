@@ -5,9 +5,7 @@ import {inject, injectable} from 'inversify';
 import {Component} from '../types/component.types.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 import {getURI} from '../utils/db.js';
-import {UserModel} from '../modules/user/user.entity.js';
-import {UserRole} from '../types/user.type.js';
-import {CityModel} from '../modules/city/city.entity.js';
+import {CommentModel} from '../modules/comment/comment.entity.js';
 
 @injectable()
 export default class Application {
@@ -30,24 +28,13 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
 
-    const user = UserModel.create({
-      name: 'test',
-      email: 'test3@email.local',
-      avatarURL: 'img/test.jpg',
-      password: 'test123',
-      type: UserRole.Pro,
+    const comment = CommentModel.create({
+      text: 'Текст комментария',
+      offerID: '63eb3eb9cb9854687f390ae8',
+      rating: 5,
+      userID: '63eb2db7bb22fa959b8304b2',
     });
 
-    console.log(user);
-
-    const city = CityModel.create({
-      name: 'Paris',
-      location: {
-        latitude: 48.85661,
-        longitude: 2.351499
-      }
-    });
-
-    console.log(city);
+    console.log(comment);
   }
 }
