@@ -33,14 +33,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-  })
-  public publicDate!: Date;
-
-  @prop({
-    required: true,
     ref: CityEntity,
   })
-  public cityName!: Ref<CityEntity>;
+  public cityID!: Ref<CityEntity>;
 
   @prop({
     required: true,
@@ -49,6 +44,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
+    type: [String]
   })
   public images!: string[];
 
@@ -94,6 +90,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
+    type: [String]
   })
   public goods!: GoodsType[];
 
@@ -105,6 +102,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
+    type: [Number],
   })
   public locationOffer!: LocationType;
 }

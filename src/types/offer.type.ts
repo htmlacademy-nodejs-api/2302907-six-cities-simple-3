@@ -3,10 +3,8 @@ import {GoodsType} from './goods.type.js';
 import {ObjectType} from './object.type.js';
 
 export type OfferType = {
-  id: number;
   title: string;
   description: string;
-  publicDate: Date;
   cityName: string;
   imgPreview: string;
   images: string[];

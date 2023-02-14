@@ -1,0 +1,205 @@
+openapi: 3.0.1
+info:
+  title: API сервер для учебного проекта «Шесть городов. Простой».
+  description: |-
+    Список ресурсов и маршрутов сервера «Шесть городов. Простой».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+servers:
+  - url: https://api.server.test/v1
+tags:
+  - name: offers
+    description: Действия с объявлениями
+  - name: users
+    description: Действия с пользователями
+  - name: comments
+    description: Действия с комментариями
+paths:
+  /comments/create:
+    post:
+      tags:
+        - comments
+      summary: Создание комментария
+
+      requestBody:
+        description: Информация для создания нового комментария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+
+      responses:
+        '201':
+          description: Комментарий создан. Объект комментария
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createComment'
+  /comments/:
+    get:
+      tags:
+        - comments
+      summary: Получение списка комментариев к предложению по аренде
+
+      requestBody:
+        description: Идентификатор предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerID'
+        required: true
+
+      responses:
+        '200':
+          description: Список комментариев получен
+          content:
+            application/json:
+              schema:
+
+
+
+  /offers/create:
+    post:
+      tags:
+        - offers
+      summary: создание нового предложения
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        '201':
+          description: Предложение создано. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '409':
+          description: Пользователь с таким email уже существует.
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        '201':
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '409':
+          description: Пользователь с таким email уже существует.
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+      responses:
+        '200':
+          description: OK
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        '200':
+          description: OK
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    createComment:
+      type: object
+
+      properties:
+        text: {
+          type: string
+        }
+        offerID: {
+          type: string
+        }
+        rating: {
+          type: number
+        }
+        userID: {
+          type: string
+        }
+
+    comments:
+      type: array
+
+      properties:
+
+
+    offerID:
+      type: object
+
+      properties:
+        id: {
+          type: string
+        }
+
+    createUser:
+      type: object
+
+      properties:
+        name:
+          type: string
+          example: Keks
+        email:
+          type: string
+          example: keks@gmail.com
+        type:
+          type: string
+          enum: [обычный, pro]
+          example: обычный
+        password:
+          type: string
+          example: 123456
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        email:
+          type: string
+          example: keks@gmail.com
+
+
+
+
+
