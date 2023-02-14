@@ -21,32 +21,6 @@
         "Calm, bright, clean, well equipped, in the center of Paris, in one of the most beautiful historical district, close to Place des Vosges, Bastille, centre George Pompidou… Very lively district with many bars, restaurants and shops. Central, you may easily walk to many sites: Notre Dame, le Louvre… Very functional, with fully equipped kitchen, refrigerator, micro wave oven, coffee machine, washing and drying machine, tv, wi fi, music...",
         "I rent my flat located in the 15th area of Paris, near Eiffeil Tower, Montparnasse, Invalides, Champs-Elysées and other great spot to visit! A lot of shops and restaurants will be around you, but also the La Motte Picquet metro station, easy to go everywhere!"
       ],
-      "cities": [
-        {
-          "name": "Paris",
-          "location": [48.85661, 2.351499]
-        },
-        {
-          "name": "Cologne",
-          "location": [50.938361, 6.959974]
-        },
-        {
-          "name": "Brussels",
-          "location": [50.846557, 4.351697]
-        },
-        {
-          "name": "Amsterdam",
-          "location": [52.370216, 4.895168]
-        },
-        {
-          "name": "Hamburg",
-          "location": [53.550341, 10.000654]
-        },
-        {
-          "name": "Dusseldorf",
-          "location": [51.225402, 6.776314]
-        }
-      ],
       "imgPreviews": [
         "1-preview.jpg",
         "2-preview.jpg",
@@ -95,44 +69,82 @@
         [51.225402, 6.776314]
       ]
     },
-    "users": {
-      "emails": [
-        "floriane@gmail.com",
-        "nicolashost@gmail.com",
-        "caroline@gmail.com",
-        "silvia@gmail.com",
-        "juletdav@gmail.com",
-        "tonyhost@gmail.com",
-        "annette@gmail.com",
-        "lucahost@gmail.com"
-      ],
-      "names": [
-        "Floriane",
-        "Nicolas",
-        "Caroline",
-        "Silvia",
-        "Juletdav",
-        "Tony",
-        "Annette",
-        "Luca"
-      ],
-      "avatars": [
-        "Floriane.jpg",
-        "Nicolas.jpg",
-        "Caroline.jpg",
-        "Silvia.jpg",
-        "Juletdav.jpg",
-        "Tony.jpg",
-        "Annette.jpg",
-        "Luca.jpg"
-      ],
-      "passwords": [
-        "123"
-      ],
-      "userTypes": [
-        "обычный",
-        "pro"
-      ]
-    }
+    "users": [
+      {
+        "email": "floriane@gmail.com",
+        "name": "Floriane",
+        "avatar": "Floriane.jpg",
+        "password": "123456",
+        "type": "pro"
+      },
+      {
+        "email": "nicolashost@gmail.com",
+        "name": "Nicolas",
+        "avatar": "Nicolas.jpg",
+        "password":  "123456",
+        "type": "обычный"
+      },
+      {
+        "email": "caroline@gmail.com",
+        "name": "Caroline",
+        "avatar": "Caroline.jpg",
+        "password":  "123456",
+        "type": "обычный"
+      },
+      {
+        "email": "silvia@gmail.com",
+        "name": "Silvia",
+        "avatar": "Silvia.jpg",
+        "password":  "123456",
+        "type": "pro"
+      },
+      {
+        "email": "juletdav@gmail.com",
+        "name": "Juletdav",
+        "avatar": "Juletdav.jpg",
+        "password":  "123456",
+        "type": "обычный"
+      },
+      {
+        "email": "tonyhost@gmail.com",
+        "name": "Tony",
+        "avatar": "Tony.jpg",
+        "password":  "123456",
+        "type": "обычный"
+      },
+      {
+        "email": "annette@gmail.com",
+        "name": "Annette",
+        "avatar": "Annette.jpg",
+        "password":  "123456",
+        "type": "обычный"
+      }
+    ],
+    "cities": [
+      {
+        "name": "Paris",
+        "location": [48.85661, 2.351499]
+      },
+      {
+        "name": "Cologne",
+        "location": [50.938361, 6.959974]
+      },
+      {
+        "name": "Brussels",
+        "location": [50.846557, 4.351697]
+      },
+      {
+        "name": "Amsterdam",
+        "location": [52.370216, 4.895168]
+      },
+      {
+        "name": "Hamburg",
+        "location": [53.550341, 10.000654]
+      },
+      {
+        "name": "Dusseldorf",
+        "location": [51.225402, 6.776314]
+      }
+    ]
   }
 }
