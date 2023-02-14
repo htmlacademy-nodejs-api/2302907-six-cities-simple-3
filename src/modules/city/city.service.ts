@@ -36,9 +36,7 @@ export default class CityService implements CityServiceInterface {
       return existedCity;
     }
 
-    const [longitude, latitude] = dto.location;
-
-    if (longitude === 0 && latitude === 0) {
+    if (!dto.location) {
       dto.location = getCityLocation(dto.name);
     }
 
@@ -73,52 +71,34 @@ function getCityLocation(cityName: string): LocationType {
   const data = [
     {
       name: 'Paris',
-      location: {
-        latitude: 48.85661,
-        longitude: 2.351499
-      }
+      location: [48.85661, 2.351499]
     },
     {
       name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974
-      }
+      location: [50.938361, 6.959974]
     },
     {
       name: 'Brussels',
-      location: {
-        latitude: 50.846557,
-        longitude: 4.351697
-      }
+      location: [50.846557, 4.351697]
     },
     {
       name: 'Amsterdam',
-      location: {
-        latitude: 52.370216,
-        longitude: 4.895168
-      }
+      location: [52.370216, 4.895168]
     },
     {
       name: 'Hamburg',
-      location: {
-        latitude: 53.550341,
-        longitude: 10.000654
-      }
+      location: [53.550341, 10.000654]
     },
     {
       name: 'Dusseldorf',
-      location: {
-        latitude: 51.225402,
-        longitude: 6.776314
-      }
+      location: [51.225402, 6.776314]
     }
   ];
 
   const city = data.find((item) => item.name === cityName);
   if (city) {
-    return [city.location.latitude, city.location.longitude];
+    return [city.location[0], city.location[1]];
   } else {
-    return [0, 0];
+    throw new Error('City is not found');
   }
 }
