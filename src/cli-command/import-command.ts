@@ -42,20 +42,24 @@ export default class ImportCommand implements CliCommandInterface {
   }
 
   private async saveOffer(offer: OfferType) {
+    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, {
+      name: offer.cityName,
+      location: [0, 0]
+    });
 
-    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, {name: offer.cityName, location: [0, 0]});
+    // todo: здесь должен быть текущий пользователь?
     const user = await this.userService.findOrCreate({
-      name: 'test',
-      email: offer.hostID,
-      avatarURL: 'avatar.png',
+      name: 'Floriane',
+      email: 'floriane@gmail.com',
+      avatarURL: 'Floriane.jpg',
       password: '123456',
       type: UserRole.Usual,
-    }, this.salt); // здесь по идее должен быть текущий пользователь
+    }, this.salt);
 
     await this.offerService.create({
       ...offer,
-      cityName: city.name,
-      hostID: user.id,
+      cityID: city.id,
+      hostID: user.email,
     });
   }
 
