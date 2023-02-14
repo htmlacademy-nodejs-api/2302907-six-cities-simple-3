@@ -35,7 +35,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     required: true,
     ref: CityEntity,
   })
-  public cityName!: Ref<CityEntity>;
+  public cityID!: Ref<CityEntity>;
 
   @prop({
     required: true,
