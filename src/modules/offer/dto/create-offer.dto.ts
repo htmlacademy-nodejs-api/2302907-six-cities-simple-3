@@ -5,7 +5,7 @@ import {LocationType} from '../../../types/location.type.js';
 export default class CreateOfferDto {
   public title!: string;
   public description!: string;
-  public cityName!: string;
+  public cityID!: string;
   public imgPreview!: string;
   public images!: string[];
   public isPremium!: boolean;
