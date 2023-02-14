@@ -8,14 +8,15 @@ export const createOffer = (row: string): OfferType => {
   const tokens = row.replace('\n', '').split('\t');
 
   const [title, description, cityName, imgPreview, images, isPremium,
-    rating, type, roomsCount, guestsCount, price, goods, hostID, locationOffer] = tokens;
+    type, roomsCount, guestsCount, price, goods, hostID, locationOffer] = tokens;
 
-  const [latitude, longitude] = locationOffer.split(', ');
+  const location: LocationType = [0, 0];
 
-  const location: LocationType = [
-    Number.parseInt(latitude, 10),
-    Number.parseInt(longitude, 10),
-  ];
+  if (locationOffer) {
+    const [latitude, longitude] = locationOffer.split(', ');
+    location[0] = Number.parseInt(latitude, 10);
+    location[1] = Number.parseInt(longitude, 10);
+  }
 
   return {
     title,
@@ -24,7 +25,7 @@ export const createOffer = (row: string): OfferType => {
     imgPreview,
     images: images.split('; '),
     isPremium: Boolean(isPremium),
-    rating: Number.parseInt(rating, 10),
+    rating: 0,
     type: type as ObjectType,
     roomsCount: Number.parseInt(roomsCount, 10),
     guestsCount: Number.parseInt(guestsCount, 10),
