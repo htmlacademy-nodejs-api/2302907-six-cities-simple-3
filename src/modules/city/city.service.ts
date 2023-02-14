@@ -36,11 +36,36 @@ export default class CityService implements CityServiceInterface {
       return existedCity;
     }
 
-    if (dto.location.longitude === 0 && dto.location.latitude === 0) {
+    const [longitude, latitude] = dto.location;
+
+    if (longitude === 0 && latitude === 0) {
       dto.location = getCityLocation(dto.name);
     }
 
     return this.create(dto);
+  }
+
+  public async find(): Promise<DocumentType<CityEntity>[]> {
+    return this.cityModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'offers',
+            let: {cityID: '$_id'},
+            pipeline: [
+              {$match: {$expr: {$in: ['$$cityID', '$cities']}}},
+              {$project: {_id: 1}}
+            ],
+            as: 'offers'
+          },
+        },
+        {
+          $addFields:
+            {id: {$toString: '$_id'}, offersCount: {$size: 'offers'}}
+        },
+        {$unset: 'offers'},
+      ])
+      .exec();
   }
 }
 
@@ -92,11 +117,8 @@ function getCityLocation(cityName: string): LocationType {
 
   const city = data.find((item) => item.name === cityName);
   if (city) {
-    return city.location;
+    return [city.location.latitude, city.location.longitude];
   } else {
-    return {
-      latitude: 0,
-      longitude: 0,
-    };
+    return [0, 0];
   }
 }

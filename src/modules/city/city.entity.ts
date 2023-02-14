@@ -11,7 +11,7 @@ export interface CityEntity extends defaultClasses.Base {}
 })
 
 export class CityEntity extends defaultClasses.TimeStamps implements CityType {
-  @prop({required: true})
+  @prop({required: true, unique: true})
   public name!: string;
 
   @prop({
