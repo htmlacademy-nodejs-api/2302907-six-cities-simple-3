@@ -44,26 +44,7 @@ export default class CityService implements CityServiceInterface {
   }
 
   public async find(): Promise<DocumentType<CityEntity>[]> {
-    return this.cityModel
-      .aggregate([
-        {
-          $lookup: {
-            from: 'offers',
-            let: {cityID: '$_id'},
-            pipeline: [
-              {$match: {$expr: {$in: ['$$cityID', '$cities']}}},
-              {$project: {_id: 1}}
-            ],
-            as: 'offers'
-          },
-        },
-        {
-          $addFields:
-            {id: {$toString: '$_id'}, offersCount: {$size: 'offers'}}
-        },
-        {$unset: 'offers'},
-      ])
-      .exec();
+    return this.cityModel.find().exec();
   }
 }
 

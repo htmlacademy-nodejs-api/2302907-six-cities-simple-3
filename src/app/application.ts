@@ -5,7 +5,6 @@ import {inject, injectable} from 'inversify';
 import {Component} from '../types/component.types.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 import {getURI} from '../utils/db.js';
-import {CommentModel} from '../modules/comment/comment.entity.js';
 
 @injectable()
 export default class Application {
@@ -27,14 +26,5 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
-
-    const comment = CommentModel.create({
-      text: 'Текст комментария',
-      offerID: '63eb3eb9cb9854687f390ae8',
-      rating: 5,
-      userID: '63eb2db7bb22fa959b8304b2',
-    });
-
-    console.log(comment);
   }
 }
