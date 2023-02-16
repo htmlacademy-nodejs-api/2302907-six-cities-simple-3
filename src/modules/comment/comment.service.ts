@@ -4,22 +4,32 @@ import {Component} from '../../types/component.types.js';
 import {DocumentType, types} from '@typegoose/typegoose';
 import {CommentEntity} from './comment.entity.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
+import {LoggerInterface} from '../../common/logger/logger.interface.js';
+import {OfferModel} from '../offer/offer.entity.js';
+import OfferService from '../offer/offer.service.js';
 
 @injectable()
 export default class CommentService implements CommentServiceInterface {
+  private offerService!: OfferService;
+
   constructor(
+    @inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(Component.CommentModel) private readonly commentModel: types.ModelType<CommentEntity>)
-  {}
+  {
+    this.offerService = new OfferService(this.logger, OfferModel);
+  }
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
-    return comment.populate('userID');
+    const offer = await this.offerService.incCommentCount(dto.offerID);
+    this.logger.info(`New comment created for offer ${offer?.title}`);
+    return comment;
   }
 
   public async findByOfferId(offerID: string): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
       .find({offerID})
-      .populate('userID')
+      .populate(['userID', 'users'])
       .exec();
   }
 

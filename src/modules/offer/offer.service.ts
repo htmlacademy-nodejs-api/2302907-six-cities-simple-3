@@ -6,6 +6,8 @@ import {DocumentType, types} from '@typegoose/typegoose';
 import {OfferEntity} from './offer.entity.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
+import mongoose from 'mongoose';
+
 
 const DEFAULT_OFFERS_COUNT = 60;
 
@@ -14,7 +16,8 @@ export default class OfferService implements OfferServiceInterface {
   constructor(
     @inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
-  ) {}
+  ) {
+  }
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
     const result = await this.offerModel.create(dto);
@@ -26,47 +29,185 @@ export default class OfferService implements OfferServiceInterface {
   public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
-      .populate(['hostID', 'users'])
-      .populate(['cityName', 'cities'])
+      .aggregate([
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'hostID',
+            foreignField: '_id',
+            as: 'host',
+          }
+        },
+        {
+          $lookup: {
+            from: 'cities',
+            localField: 'cityID',
+            foreignField: '_id',
+            as: 'city',
+          }
+        },
+        {
+          $lookup: {
+            from: 'comments',
+            localField: '_id',
+            foreignField: 'offerID',
+            as: 'comments',
+          }
+        },
+        {
+          $unset: ['rating', 'hostID', 'cityID']
+        },
+        {
+          $addFields: {
+            rating: {
+              $max: [{
+                $floor: {
+                  $divide: [{
+                    $multiply: [{
+                      $avg: '$comments.rating'
+                    }, 10]
+                  }, 10]
+                }
+              }, 0]
+            },
+            hostName: {$first: '$host.name'},
+            cityID: '$city.name'
+          }
+        },
+        {
+          $unset: ['comments', 'host', 'city', 'createdAt', 'updatedAt']
+        },
+      ])
       .exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
-      .populate(['hostID', 'users'])
-      .populate(['cityName', 'cities'])
       .exec();
   }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      .populate(['hostID', 'users'])
-      .populate(['cityName', 'cities'])
+      .aggregate([
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'hostID',
+            foreignField: '_id',
+            as: 'host',
+          }
+        },
+        {
+          $lookup: {
+            from: 'cities',
+            localField: 'cityID',
+            foreignField: '_id',
+            as: 'city',
+          }
+        },
+        {
+          $lookup: {
+            from: 'comments',
+            localField: '_id',
+            foreignField: 'offerID',
+            as: 'comments',
+          }
+        },
+        {
+          $unset: ['rating', 'hostID', 'cityID']
+        },
+        {
+          $addFields: {
+            rating: {
+              $max: [{
+                $floor: {
+                  $divide: [{
+                    $multiply: [{
+                      $avg: '$comments.rating'
+                    }, 10]
+                  }, 10]
+                }
+              }, 0]
+            },
+            hostName: {$first: '$host.name'},
+            cityID: '$city.name'
+          }
+        },
+        {
+          $unset: ['comments', 'host', 'city', 'createdAt', 'updatedAt']
+        },
+      ])
       .exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  public async find(cityIdFilter: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count || DEFAULT_OFFERS_COUNT;
     return this.offerModel
-      .find()
-      .limit(limit)
-      .sort({createdAt: -1})
-      .populate(['hostID', 'users'])
-      .populate(['cityName', 'cities'])
+      .aggregate([
+        {$match: {cityID: new mongoose.Types.ObjectId(cityIdFilter)}},
+        {$sort: {createdAt: -1}},
+        {$limit: limit},
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'hostID',
+            foreignField: '_id',
+            as: 'host',
+          }
+        },
+        {
+          $lookup: {
+            from: 'cities',
+            localField: 'cityID',
+            foreignField: '_id',
+            as: 'city',
+          }
+        },
+        {
+          $lookup: {
+            from: 'comments',
+            localField: '_id',
+            foreignField: 'offerID',
+            as: 'comments',
+          }
+        },
+        {
+          $unset: ['rating', 'hostID', 'cityID']
+        },
+        {
+          $addFields: {
+            rating: {
+              $max: [{
+                $floor: {
+                  $divide: [{
+                    $multiply: [{
+                      $avg: '$comments.rating'
+                    }, 10]
+                  }, 10]
+                }
+              }, 0]
+            },
+            hostName: {$first: '$host.name'},
+            cityID: '$city.name'
+          }
+        },
+        {
+          $unset: ['comments', 'host', 'city', 'createdAt', 'updatedAt']
+        },
+      ])
       .exec();
   }
 
   public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {commentCount: 1}})
-      .populate(['hostID', 'users'])
-      .populate(['cityName', 'cities'])
       .exec();
   }
 
   public async exists(offerId: string): Promise<boolean> {
     return (await this.offerModel.exists({_id: offerId})) !== null;
   }
+
 }
