@@ -6,6 +6,7 @@ import {Component} from '../types/component.types.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 import {getURI} from '../utils/db.js';
 import express, {Express} from 'express';
+import CityController from '../modules/city/city.controller.js';
 
 @injectable()
 export default class Application {
@@ -14,9 +15,18 @@ export default class Application {
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
-    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface
+    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    @inject(Component.CityController) private cityController: CityController
   ) {
     this.expressApp = express();
+  }
+
+  public initRoutes() {
+    this.expressApp.use('/cities', this.cityController.router);
+  }
+
+  public initMiddleware() {
+    this.expressApp.use(express.json());
   }
 
   public async init() {
@@ -33,6 +43,8 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
 
+    this.initMiddleware();
+    this.initRoutes();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
   }

@@ -29,14 +29,17 @@ export abstract class Controller implements ControllerInterface {
       .json(data);
   }
 
+  // 201
   public created<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.CREATED, data);
   }
 
+  // 204
   public noContent<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.NO_CONTENT, data);
   }
 
+  // 200
   public ok<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.OK, data);
   }
