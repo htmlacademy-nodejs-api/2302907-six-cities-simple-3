@@ -29,7 +29,7 @@ export default class CommentService implements CommentServiceInterface {
   public async findByOfferId(offerID: string): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
       .find({offerID})
-      .populate(['userID', 'users'])
+      .populate(['userID'])
       .exec();
   }
 
