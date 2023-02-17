@@ -18,3 +18,159 @@ Content-Type: application/json
 {
   "name": "Paris"
 }
+
+###
+
+# Пользователи
+## Регистрация пользователя
+
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans2@overlook.net",
+  "avatarURL": "torrance.png",
+  "name": "Jack",
+  "password": "shining",
+  "type": "pro"
+}
+
+###
+
+## Авторизация пользователя
+
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans@overlook.net",
+  "password": "123456"
+}
+
+###
+
+## Проверка состояния пользователя
+
+POST http://localhost:4000/users/check HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "123"
+}
+
+###
+
+# Комментарии
+## Добавление комментария
+
+POST http://localhost:4000/comments/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Все понравилось",
+  "offerID": "63eb3eb9cb9854687f390aed",
+  "rating": "4",
+  "userID": "63eae71e588ee4fc12256f41"
+}
+
+###
+
+## Получение списка комментариев для предложения
+
+GET http://localhost:4000/comments/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "offerID": "63eb3eb9cb9854687f390aed"
+}
+
+###
+
+# Офферы
+## Получение детальной информации о предложении.
+
+GET http://localhost:4000/offers/63eb3eb9cb9854687f390aed HTTP/1.1
+
+###
+
+## Получение всех предложений по аренде.
+
+GET http://localhost:4000/offers/ HTTP/1.1
+
+###
+## Получение всех предложений по аренде c фильтром по городу.
+GET http://localhost:4000/offers/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "cityID": "63eb3566ffbd5c72c9cffeb4"
+}
+
+
+###
+## Получение всех предложений по аренде с указанием количества.
+GET http://localhost:4000/offers/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "count": 4
+}
+###
+
+## Создание объявления
+
+POST http://localhost:4000/offers HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Тестовое объявление",
+  "description": "Описание для тестового объявления",
+  "cityID": "63eb3566ffbd5c72c9cffeb4",
+  "imgPreview": "3-preview.jpg",
+  "images": [
+    "house.jpg",
+    "window.jpg"
+  ],
+  "isPremium": false,
+  "type": "house",
+  "roomsCount": 1,
+  "guestsCount": 2,
+  "price": 2500,
+  "goods": [
+    "Laptop friendly workspace",
+    "Washer",
+    "Towels",
+    "Fridge"
+  ],
+  "hostID": "63eb2db7bb22fa959b8304b2",
+  "locationOffer": [
+    0,
+    0
+  ]
+}
+
+###
+
+## Удаление объявления
+DELETE http://localhost:4000/offers/63eb3eb9cb9854687f390ae8 HTTP/1.1
+
+###
+
+## Редактирование предложения
+PATCH http://localhost:4000/offers/63eb3eb9cb9854687f390aed HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Тестовое название предложения",
+  "isPremium": true,
+  "roomsCount": 2,
+  "guestsCount": 3,
+  "price": 2500
+}
+
+###
+
+## Список комментариев к предложению
+GET http://localhost:4000/offers/63eb3eb9cb9854687f390ae8/comments HTTP/1.1
+
+###
