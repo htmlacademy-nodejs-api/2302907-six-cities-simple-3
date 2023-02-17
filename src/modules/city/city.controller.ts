@@ -9,6 +9,7 @@ import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
 import CityResponse from './response/city.response.js';
 import CreateCityDto from './dto/create-city.dto.js';
+import HttpError from '../../common/error/http-error.js';
 
 @injectable()
 export default class CityController extends Controller {
@@ -37,11 +38,11 @@ export default class CityController extends Controller {
     const existCity = await this.cityService.findByCityName(body.name);
 
     if (existCity) {
-      const errorMessage = `City with name ${body.name} exists.`;
-      // код 422
-      this.send(res, StatusCodes.UNPROCESSABLE_ENTITY, {error: errorMessage});
-
-      return this.logger.error(errorMessage);
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        `City with name ${body.name} exists.`,
+        'CityController'
+      );
     }
 
     const result = await this.cityService.create(body);

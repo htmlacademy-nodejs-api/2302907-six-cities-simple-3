@@ -2,8 +2,8 @@ import {Expose} from 'class-transformer';
 
 export default class CityResponse {
   @Expose()
-  public id!: string;
+  public name!: string;
 
   @Expose()
-  public name!: string;
+  public location!: string;
 }
