@@ -13,6 +13,7 @@ import {fillDTO} from '../../utils/common.js';
 import UserResponse from './response/user.response.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import CheckUserDto from './dto/check-user.dto.js';
+import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -27,12 +28,14 @@ export default class UserController extends Controller {
     this.addRoute({
       path: '/register',
       method: HttpMethod.Post,
-      handler: this.create
+      handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateUserDto)]
     });
     this.addRoute({
       path: '/login',
       method: HttpMethod.Post,
-      handler: this.login
+      handler: this.login,
+      middleware: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
       path: '/check',

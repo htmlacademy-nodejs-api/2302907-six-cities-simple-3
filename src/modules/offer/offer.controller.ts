@@ -17,6 +17,7 @@ import UpdateOfferDto from './dto/update-offer.dto.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import CommentResponse from '../comment/response/comment.response.js';
 import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
+import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 
 type ParamsGetOfferType = {
   offerId: string;
@@ -42,6 +43,7 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateOfferDto)],
     });
 
     this.addRoute({
