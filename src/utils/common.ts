@@ -3,6 +3,7 @@ import {OfferType} from '../types/offer.type.js';
 import {LocationType} from '../types/location.type.js';
 import {ObjectType} from '../types/object.type.js';
 import {GoodsType} from '../types/goods.type.js';
+import {ClassConstructor, plainToInstance} from 'class-transformer';
 
 export const createOffer = (row: string): OfferType => {
   const tokens = row.replace('\n', '').split('\t');
@@ -44,3 +45,10 @@ export const createSHA256 = (line: string, salt: string) => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
+  plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
+
+export const createErrorObject = (message: string) => ({
+  error: message,
+});

@@ -8,6 +8,8 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {OfferModel} from '../offer/offer.entity.js';
 import OfferService from '../offer/offer.service.js';
 
+const DEFAULT_COMMENTS_COUNT = 50;
+
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   private offerService!: OfferService;
@@ -29,7 +31,9 @@ export default class CommentService implements CommentServiceInterface {
   public async findByOfferId(offerID: string): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
       .find({offerID})
-      .populate(['userID', 'users'])
+      .sort({createdAt: -1})
+      .limit(DEFAULT_COMMENTS_COUNT)
+      .populate(['userID'])
       .exec();
   }
 
