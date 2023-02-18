@@ -21,8 +21,16 @@ export default class CityController extends Controller {
 
     this.logger.info('Register routes for CityController...');
 
-    this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Get,
+      handler: this.index
+    });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.create
+    });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
