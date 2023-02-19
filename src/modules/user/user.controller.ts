@@ -12,12 +12,12 @@ import {StatusCodes} from 'http-status-codes';
 import {createJWT, fillDTO} from '../../utils/common.js';
 import UserResponse from './response/user.response.js';
 import LoginUserDto from './dto/login-user.dto.js';
-import CheckUserDto from './dto/check-user.dto.js';
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
 import {UploadFileMiddleware} from '../../common/middleware/upload-file.middleware.js';
 import {JWT_ALGORITM} from './user.constant.js';
 import LoggedUserResponse from './response/logged-user.response.js';
+import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -42,15 +42,16 @@ export default class UserController extends Controller {
       middleware: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
-      path: '/check',
-      method: HttpMethod.Post,
-      handler: this.check
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuth
     });
     this.addRoute({
       path: '/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middleware: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
       ]
@@ -58,9 +59,22 @@ export default class UserController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    req: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
+    const isAuthUser = await this.userService.findByEmail(req.user?.email);
+
+    // не понимаю как сделать так, чтобы это работало
+    if (isAuthUser) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'Пользователи не могут создавать новых пользователей',
+        'UserController'
+      );
+    }
+
+    const {body} = req;
+
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
@@ -97,16 +111,9 @@ export default class UserController extends Controller {
     this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
   }
 
-  public async check(
-    _req: Request<Record<string, unknown>, Record<string, unknown>, CheckUserDto>,
-    _res: Response,
-  ): Promise<void> {
-
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+  public async checkAuth(req: Request, res: Response): Promise<void> {
+    const user = await this.userService.findByEmail(req.user.email);
+    this.ok(res, fillDTO(LoggedUserResponse, user));
   }
 
   public async uploadAvatar(req: Request, res: Response) {

@@ -57,7 +57,6 @@ export default class CreateOfferDto {
   })
   public goods!: GoodsType[];
 
-  @IsMongoId({message: 'Поле hostID должно содержать id хоста'})
   public hostID!: string;
 
   @IsArray({message: 'Поле locationOffer должно быть массивом чисел из 2 элементов [lat, long]'})

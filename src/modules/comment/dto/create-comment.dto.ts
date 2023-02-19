@@ -13,6 +13,5 @@ export default class CreateCommentDto {
   @Max(5, {message: 'Поле rating должно быть целым числом от 1 до 5'})
   public rating!: number;
 
-  @IsMongoId({message: 'Поле userID должно содержать id пользователя'})
   public userID!: string;
 }

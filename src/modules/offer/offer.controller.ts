@@ -18,6 +18,7 @@ import CommentResponse from '../comment/response/comment.response.js';
 import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 import {DocumentExistsMiddleware} from '../../common/middleware/document-exists.middleware.js';
+import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
 
 type ParamsGetOfferType = {
   offerId: string;
@@ -44,7 +45,10 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middleware: [new ValidateDtoMiddleware(CreateOfferDto)],
+      middleware: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ],
     });
 
     this.addRoute({
@@ -62,6 +66,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middleware: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -72,6 +77,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Patch,
       handler: this.update,
       middleware: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -109,10 +115,11 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    req: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create(body);
+    const {body, user} = req;
+    const result = await this.offerService.create({...body, hostID: user.id});
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferResponse, offer));
   }
