@@ -60,6 +60,19 @@ Content-Type: application/json
 
 ###
 
+## Отправка аватарки пользоватю
+POST http://localhost:4000/users/63eae71e588ee4fc12256f41/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Type: image/png
+
+< /Users/liraholm/Downloads/IMG_8198.PNG
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
 # Офферы
 ## Получение детальной информации о предложении.
 
@@ -160,3 +173,11 @@ Content-Type: application/json
   "rating": "4",
   "userID": "63eae71e588ee4fc12256f41"
 }
+
+
+###
+
+# Файлы
+## Получение файла public/upload/avatar.png
+## public в url не указывается
+GET http://localhost:4000/upload/avatar.png HTTP/1.1
