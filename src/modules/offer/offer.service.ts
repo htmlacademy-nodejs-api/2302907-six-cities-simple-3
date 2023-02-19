@@ -47,8 +47,6 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  // todo: расчет рейтинга по комментариям
-
   public async find(dto: GetOffersDto): Promise<DocumentType<OfferEntity>[]> {
     const {cityID, count} = dto;
     const limit = count || DEFAULT_OFFERS_COUNT;
@@ -67,6 +65,15 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {commentCount: 1}})
       .exec();
+  }
+
+  public async updateRating(offerId: string, rating: number | null): Promise<DocumentType<OfferEntity> | null> {
+    if (rating) {
+      return this.offerModel
+        .findByIdAndUpdate(offerId, {rating: rating})
+        .exec();
+    }
+    return null;
   }
 
   public async exists(offerId: string): Promise<boolean> {

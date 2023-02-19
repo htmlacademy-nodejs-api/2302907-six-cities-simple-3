@@ -11,6 +11,7 @@ export type ConfigSchema = {
   DB_PASSWORD: string;
   PORT: number;
   SALT: string;
+  UPLOAD_DIRECTORY: string;
 };
 
 export const configSchema = convict<ConfigSchema>({
@@ -55,5 +56,11 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'SALT',
     default: null,
-  }
+  },
+  UPLOAD_DIRECTORY: {
+    doc: 'Directory for upload files',
+    format: String,
+    env: 'UPLOAD_DIRECTORY',
+    default: null,
+  },
 });

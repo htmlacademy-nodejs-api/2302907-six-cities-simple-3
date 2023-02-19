@@ -37,6 +37,9 @@ export default class Application {
 
   public initMiddleware() {
     this.expressApp.use(express.json());
+
+    const uploadPath = this.config.get('UPLOAD_DIRECTORY');
+    this.expressApp.use('/upload', express.static(uploadPath));
   }
 
   public initExceptionFilters(){
