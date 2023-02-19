@@ -16,6 +16,8 @@ import OfferListResponse from './response/offer-list.response.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import CommentResponse from '../comment/response/comment.response.js';
+import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
+import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 
 type ParamsGetOfferType = {
   offerId: string;
@@ -35,36 +37,45 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Get,
       handler: this.index,
+      middleware: [new ValidateDtoMiddleware(GetOffersDto)],
     });
 
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateOfferDto)],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
+      middleware: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
+      middleware: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
+      middleware: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(UpdateOfferDto)
+      ],
     });
 
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
+      middleware: [new ValidateObjectIdMiddleware('offerId')],
     });
   }
 
