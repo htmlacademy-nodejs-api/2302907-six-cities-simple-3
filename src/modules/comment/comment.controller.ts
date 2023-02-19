@@ -11,6 +11,7 @@ import HttpError from '../../common/error/http-error.js';
 import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
+import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -25,7 +26,8 @@ export default class CommentController extends Controller {
     this.addRoute({
       path: '/create',
       method: HttpMethod.Post,
-      handler: this.create
+      handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateCommentDto)]
     });
   }
 
