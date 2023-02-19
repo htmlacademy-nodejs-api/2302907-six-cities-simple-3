@@ -7,6 +7,7 @@ import CreateCommentDto from './dto/create-comment.dto.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {OfferModel} from '../offer/offer.entity.js';
 import OfferService from '../offer/offer.service.js';
+import {Types} from 'mongoose';
 
 const DEFAULT_COMMENTS_COUNT = 50;
 
@@ -23,9 +24,28 @@ export default class CommentService implements CommentServiceInterface {
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
-    const offer = await this.offerService.incCommentCount(dto.offerID);
+    let offer = await this.offerService.incCommentCount(dto.offerID);
+
+    const rating = await this.calcRating(dto.offerID);
+    offer = await this.offerService.updateRating(dto.offerID, rating);
+
     this.logger.info(`New comment created for offer ${offer?.title}`);
     return comment;
+  }
+
+  public async calcRating(offerID: string): Promise<number | null> {
+    const offerObjectId = new Types.ObjectId(offerID);
+    const result = await this.commentModel
+      .aggregate([
+        { $match: { offerID: offerObjectId} },
+        { $group: {_id: null, rating: {$avg: '$rating'}}},
+      ]);
+
+    if (result.length) {
+      return (result[0].rating.toFixed(1)) ;
+    }
+
+    return null;
   }
 
   public async findByOfferId(offerID: string): Promise<DocumentType<CommentEntity>[]> {
