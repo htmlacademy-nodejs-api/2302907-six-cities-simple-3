@@ -16,7 +16,7 @@ export class ValidateObjectIdMiddleware implements MiddlewareInterface {
 
     throw new HttpError(
       StatusCodes.BAD_REQUEST,
-      `${objectId} is invalid ObjectID`,
+      `${objectId} не корректный формат. Нужен формат ObjectID`,
       'ValidateObjectIdMiddleware'
     );
 
