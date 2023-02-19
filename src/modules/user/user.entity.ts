@@ -13,10 +13,6 @@ export interface UserEntity extends defaultClasses.Base {}
   }
 })
 
-// не могу разобраться с password
-// если делать как в учебном проекте тип без поля password, то появляется ошибка в dto
-// если делать с полем password, то ошибка Class 'UserEntity' incorrectly implements interface 'UserType'.
-
 export class UserEntity extends defaultClasses.TimeStamps implements UserType {
   constructor(data: UserType) {
     super();
@@ -66,6 +62,11 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
 
   public getPassword() {
     return this.password;
+  }
+
+  public verifyPassword(password: string, salt: string) {
+    const hashPassword = createSHA256(password, salt);
+    return hashPassword === this.password;
   }
 
 }

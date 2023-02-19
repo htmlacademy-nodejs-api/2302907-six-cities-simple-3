@@ -9,13 +9,15 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {ConfigInterface} from '../../common/config/config.interface.js';
 import HttpError from '../../common/error/http-error.js';
 import {StatusCodes} from 'http-status-codes';
-import {fillDTO} from '../../utils/common.js';
+import {createJWT, fillDTO} from '../../utils/common.js';
 import UserResponse from './response/user.response.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import CheckUserDto from './dto/check-user.dto.js';
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
 import {UploadFileMiddleware} from '../../common/middleware/upload-file.middleware.js';
+import {JWT_ALGORITM} from './user.constant.js';
+import LoggedUserResponse from './response/logged-user.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -75,23 +77,24 @@ export default class UserController extends Controller {
 
   public async login(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
+    const user = await this.userService.verifyUser(body, this.configService.get('SALT'));
 
-    if (!existsUser) {
+    if (!user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `User with email «${body.email}» not found.`,
+        `User with email «${body.email}» is unauthorized.`,
         'UserController'
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
+    const token = await createJWT(
+      JWT_ALGORITM,
+      this.configService.get('JWT_SECRET'),
+      {email: user.email, id: user.id}
     );
+    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
   }
 
   public async check(
