@@ -62,10 +62,9 @@ export default class UserController extends Controller {
     req: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
-    const isAuthUser = await this.userService.findByEmail(req.user?.email);
+    const {user} = req;
 
-    // не понимаю как сделать так, чтобы это работало
-    if (isAuthUser) {
+    if (user) {
       throw new HttpError(
         StatusCodes.BAD_REQUEST,
         'Пользователи не могут создавать новых пользователей',

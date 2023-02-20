@@ -72,10 +72,6 @@ export default class UpdateOfferDto {
   public goods!: GoodsType[];
 
   @IsOptional()
-  @IsMongoId({message: 'Поле hostID должно содержать id хоста'})
-  public hostID!: string;
-
-  @IsOptional()
   @IsArray({message: 'Поле locationOffer должно быть массивом чисел из 2 элементов [lat, long]'})
   @ArrayMaxSize(2, {message: 'Поле locationOffer должно быть массивом чисел из 2 элементов [lat, long]'})
   @ArrayMinSize(2, {message: 'Поле locationOffer должно быть массивом чисел из 2 элементов [lat, long]'})
