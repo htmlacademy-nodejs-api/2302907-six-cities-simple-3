@@ -1,3 +1,4 @@
+import * as jose from 'jose';
 import crypto from 'crypto';
 import {OfferType} from '../types/offer.type.js';
 import {LocationType} from '../types/location.type.js';
@@ -9,14 +10,14 @@ export const createOffer = (row: string): OfferType => {
   const tokens = row.replace('\n', '').split('\t');
 
   const [title, description, cityName, imgPreview, images, isPremium,
-    type, roomsCount, guestsCount, price, goods, hostID, locationOffer] = tokens;
+    type, roomsCount, guestsCount, price, goods, locationOffer] = tokens;
 
   const location: LocationType = [0, 0];
 
   if (locationOffer) {
     const [latitude, longitude] = locationOffer.split(', ');
-    location[0] = Number.parseInt(latitude, 10);
-    location[1] = Number.parseInt(longitude, 10);
+    location[0] = +latitude;
+    location[1] = +longitude;
   }
 
   return {
@@ -32,7 +33,6 @@ export const createOffer = (row: string): OfferType => {
     guestsCount: Number.parseInt(guestsCount, 10),
     price: Number.parseInt(price, 10),
     goods: goods.split('; ') as GoodsType[],
-    hostID,
     locationOffer: location,
   };
 };
@@ -52,3 +52,10 @@ export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
 export const createErrorObject = (message: string) => ({
   error: message,
 });
+
+export const createJWT = async (algorithm: string, jwtSecret: string, payload: object): Promise<string> =>
+  new jose.SignJWT({...payload})
+    .setProtectedHeader({ alg: algorithm})
+    .setIssuedAt()
+    .setExpirationTime('2h')
+    .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));

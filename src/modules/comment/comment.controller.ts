@@ -12,6 +12,7 @@ import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
+import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -27,14 +28,19 @@ export default class CommentController extends Controller {
       path: '/create',
       method: HttpMethod.Post,
       handler: this.create,
-      middleware: [new ValidateDtoMiddleware(CreateCommentDto)]
+      middleware: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCommentDto)
+      ]
     });
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentDto>,
+    req: Request<object, object, CreateCommentDto>,
     res: Response
   ): Promise<void> {
+
+    const {body} = req;
 
     const existOffer = await this.offerService.exists(body.offerID);
 
@@ -45,7 +51,9 @@ export default class CommentController extends Controller {
       );
     }
 
-    const result = await this.commentService.create(body);
-    this.send(res, StatusCodes.CREATED, fillDTO(CommentResponse, result));
+    console.log('req', req);
+
+    const comment = await this.commentService.create({...body, userID: req.user.id});
+    this.send(res, StatusCodes.CREATED, fillDTO(CommentResponse, comment));
   }
 }

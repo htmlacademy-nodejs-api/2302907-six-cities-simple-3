@@ -10,6 +10,7 @@ import CityController from '../modules/city/city.controller.js';
 import {ExceptionFilterInterface} from '../common/error/exception-filter.interface.js';
 import UserController from '../modules/user/user.controller.js';
 import OfferController from '../modules/offer/offer.controller.js';
+import {AuthenticateMiddleware} from '../common/middleware/authenticate.middleware.js';
 
 @injectable()
 export default class Application {
@@ -40,6 +41,9 @@ export default class Application {
 
     const uploadPath = this.config.get('UPLOAD_DIRECTORY');
     this.expressApp.use('/upload', express.static(uploadPath));
+
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   public initExceptionFilters(){
