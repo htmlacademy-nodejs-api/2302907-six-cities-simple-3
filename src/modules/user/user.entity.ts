@@ -19,7 +19,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
 
     this.name = data.name;
     this.email = data.email;
-    this.avatarURL = data.avatarURL;
+    this.avatarURL = data.avatarURL || './upload/avatar.png';
     this.type = data.type;
   }
 

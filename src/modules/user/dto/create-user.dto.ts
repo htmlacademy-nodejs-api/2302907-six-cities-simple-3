@@ -10,8 +10,8 @@ export default class CreateUserDto {
   @IsEmail({}, {message: 'Email должен быть валидным'})
   public email!: string;
 
-  @IsString({message: 'avatarURL может быть только строкой'})
   @IsOptional()
+  @IsString({message: 'avatarURL может быть только строкой'})
   public avatarURL!: string;
 
   @IsString({message: 'Пароль обязателен'})

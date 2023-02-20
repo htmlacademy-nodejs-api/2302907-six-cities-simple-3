@@ -51,7 +51,7 @@ export default class OfferService implements OfferServiceInterface {
     const {cityID, count} = dto;
     const limit = count || DEFAULT_OFFERS_COUNT;
 
-    const cityFilter = cityID ? {cityID: cityID} : {};
+    const cityFilter = cityID ? {cityID} : {};
 
     return this.offerModel
       .find(cityFilter)
@@ -70,7 +70,7 @@ export default class OfferService implements OfferServiceInterface {
   public async updateRating(offerId: string, rating: number | null): Promise<DocumentType<OfferEntity> | null> {
     if (rating) {
       return this.offerModel
-        .findByIdAndUpdate(offerId, {rating: rating})
+        .findByIdAndUpdate(offerId, {rating})
         .exec();
     }
     return null;

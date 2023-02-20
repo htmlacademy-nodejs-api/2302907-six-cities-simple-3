@@ -42,16 +42,14 @@ export default class ImportCommand implements CliCommandInterface {
   }
 
   private async saveOffer(offer: OfferType) {
-    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, {
-      name: offer.cityName,
-    });
+    const city = await this.cityService.findByCityNameOrCreate(offer.cityName, );
 
-    // todo: здесь должен быть текущий пользователь?
+    // Тестовый пользователь
     const user = await this.userService.findOrCreate({
       name: 'Floriane',
       email: 'floriane@gmail.com',
-      avatarURL: './images/avatar.png',
       password: '123456',
+      avatarURL: './uploads/avatar.png',
       type: UserRole.Usual,
     }, this.salt);
 
@@ -102,4 +100,3 @@ export default class ImportCommand implements CliCommandInterface {
     }
   }
 }
-
