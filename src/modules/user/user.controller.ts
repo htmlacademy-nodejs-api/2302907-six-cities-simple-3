@@ -130,7 +130,7 @@ export default class UserController extends Controller {
     if (!req.body.user && userId !== req.body.user.id) {
       throw new HttpError(
         StatusCodes.LOCKED,
-        'Вы не добавлять аватар для другого пользователя',
+        'Вы не можете добавлять аватар для другого пользователя',
         'OfferControllerDelete');
     }
 
