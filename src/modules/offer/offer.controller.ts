@@ -132,9 +132,8 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const {offerId} = params;
-
     const offer = await this.offerService.findById(params.offerId);
-    if (offer && offer.hostID && user.id !== offer.hostID.id) {
+    if (offer && (!offer.hostID || user.id !== offer.hostID.id)) {
       throw new HttpError(
         StatusCodes.LOCKED,
         'Вы не можете удалять чужие объявления',
@@ -154,7 +153,7 @@ export default class OfferController extends Controller {
   ): Promise<void> {
 
     const offer = await this.offerService.findById(params.offerId);
-    if (offer && offer.hostID && user.id !== offer.hostID.id) {
+    if (offer && (!offer.hostID || user.id !== offer.hostID.id)) {
       throw new HttpError(
         StatusCodes.LOCKED,
         'Вы не можете редактировать чужие объявления',

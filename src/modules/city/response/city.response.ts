@@ -5,5 +5,5 @@ export default class CityResponse {
   public name!: string;
 
   @Expose()
-  public location!: string;
+  public location!: [number, number];
 }

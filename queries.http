@@ -136,8 +136,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZ
 ###
 
 ## Удаление объявления
-DELETE http://localhost:4000/offers/ 63f2e9582f844eb955b3b874 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM1MjdmMmU4MjUzOGJiMTI5MmU0NSIsImlhdCI6MTY3Njg5MDc1OSwiZXhwIjoxNjc2ODk3OTU5fQ.EWrV0PO6rv7Wl37JlWaPZKfPSbUMLk-Ds9JPhdiPGkU
+DELETE http://localhost:4000/offers/63f2e9572f844eb955b3b706 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczRAb3Zlcmxvb2submV0IiwiaWQiOiI2M2Y0NTJmYmQ5YzgxZTcwMDkzNTZiMWIiLCJpYXQiOjE2NzY5NjQxNTcsImV4cCI6MTY3Njk3MTM1N30.k6Cl6d2G0Dn7_DsM3uiwMj3yAfqPfYhhrQCWHIFpzo0
 
 ###
 
