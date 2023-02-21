@@ -12,6 +12,7 @@ import UserController from '../modules/user/user.controller.js';
 import OfferController from '../modules/offer/offer.controller.js';
 import {AuthenticateMiddleware} from '../common/middleware/authenticate.middleware.js';
 import {getFullServerPath} from '../utils/common.js';
+import cors from 'cors';
 
 @injectable()
 export default class Application {
@@ -51,6 +52,7 @@ export default class Application {
 
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.expressApp.use(cors());
   }
 
   public initExceptionFilters(){
