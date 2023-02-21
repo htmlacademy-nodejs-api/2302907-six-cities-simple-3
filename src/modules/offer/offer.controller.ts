@@ -20,6 +20,7 @@ import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middle
 import {DocumentExistsMiddleware} from '../../common/middleware/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
 import HttpError from '../../common/error/http-error.js';
+import {ConfigInterface} from '../../common/config/config.interface.js';
 
 type ParamsGetOfferType = {
   offerId: string;
@@ -29,10 +30,11 @@ type ParamsGetOfferType = {
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController…');
     this.addRoute({

@@ -11,6 +11,7 @@ import {ExceptionFilterInterface} from '../common/error/exception-filter.interfa
 import UserController from '../modules/user/user.controller.js';
 import OfferController from '../modules/offer/offer.controller.js';
 import {AuthenticateMiddleware} from '../common/middleware/authenticate.middleware.js';
+import {getFullServerPath} from '../utils/common.js';
 
 @injectable()
 export default class Application {
@@ -39,8 +40,14 @@ export default class Application {
   public initMiddleware() {
     this.expressApp.use(express.json());
 
-    const uploadPath = this.config.get('UPLOAD_DIRECTORY');
-    this.expressApp.use('/upload', express.static(uploadPath));
+    this.expressApp.use(
+      '/upload',
+      express.static(this.config.get('UPLOAD_DIRECTORY')));
+
+    this.expressApp.use(
+      '/static',
+      express.static(this.config.get('STATIC_DIRECTORY_PATH'))
+    );
 
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
@@ -68,6 +75,8 @@ export default class Application {
     this.initRoutes();
     this.initExceptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+
+    const serverPath = getFullServerPath(this.config.get('HOST'), this.config.get('PORT'));
+    this.logger.info(`Server started on ${serverPath}`);
   }
 }

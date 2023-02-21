@@ -49,7 +49,6 @@ export default class ImportCommand implements CliCommandInterface {
       name: 'Floriane',
       email: 'floriane@gmail.com',
       password: '123456',
-      avatarURL: './uploads/avatar.png',
       type: UserRole.Usual,
     }, this.salt);
 

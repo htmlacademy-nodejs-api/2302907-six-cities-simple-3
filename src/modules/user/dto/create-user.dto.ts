@@ -1,5 +1,5 @@
 import {UserRole} from '../../../types/user.type.js';
-import {IsEmail, IsEnum, IsOptional, IsString, Length, MinLength} from 'class-validator';
+import {IsEmail, IsEnum, IsString, Length, MinLength} from 'class-validator';
 
 // почему здесь password public?
 export default class CreateUserDto {
@@ -9,10 +9,6 @@ export default class CreateUserDto {
 
   @IsEmail({}, {message: 'Email должен быть валидным'})
   public email!: string;
-
-  @IsOptional()
-  @IsString({message: 'avatarURL может быть только строкой'})
-  public avatarURL!: string;
 
   @IsString({message: 'Пароль обязателен'})
   @MinLength(6, {message: 'Пароль должен содержать не менее 6 символов'})

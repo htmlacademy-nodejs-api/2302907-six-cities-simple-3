@@ -11,14 +11,16 @@ import CityResponse from './response/city.response.js';
 import CreateCityDto from './dto/create-city.dto.js';
 import HttpError from '../../common/error/http-error.js';
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
+import {ConfigInterface} from '../../common/config/config.interface.js';
 
 @injectable()
 export default class CityController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.CityServiceInterface) private readonly cityService: CityServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for CityController...');
 
