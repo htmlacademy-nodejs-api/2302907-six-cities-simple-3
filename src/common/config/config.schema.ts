@@ -11,7 +11,9 @@ export type ConfigSchema = {
   DB_PASSWORD: string;
   PORT: number;
   SALT: string;
+  STATIC_DIRECTORY_PATH: string;
   UPLOAD_DIRECTORY: string;
+  HOST: string;
   JWT_SECRET: string;
 };
 
@@ -58,11 +60,23 @@ export const configSchema = convict<ConfigSchema>({
     env: 'SALT',
     default: null,
   },
+  STATIC_DIRECTORY_PATH: {
+    doc: 'Path to directory for static resources',
+    format: String,
+    env: 'STATIC_DIRECTORY_PATH',
+    default: 'static',
+  },
   UPLOAD_DIRECTORY: {
     doc: 'Directory for upload files',
     format: String,
     env: 'UPLOAD_DIRECTORY',
     default: null,
+  },
+  HOST: {
+    doc: 'Host were started service',
+    format: String,
+    env: 'HOST',
+    default: 'localhost',
   },
   JWT_SECRET: {
     doc: 'Secret for sign JWT',

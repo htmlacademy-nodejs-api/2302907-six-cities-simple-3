@@ -10,6 +10,8 @@ info:
 servers:
   - url: https://api.server.test/v1
 tags:
+  - name: cities
+    description: Действия с городами
   - name: offers
     description: Действия с объявлениями
   - name: users
@@ -17,6 +19,34 @@ tags:
   - name: comments
     description: Действия с комментариями
 paths:
+  /cities:
+    get:
+      tags:
+        - cities
+      summary: Получить весь список городов
+      responses:
+        '200':
+          description: Список городов получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cities'
+
+    post:
+      tags:
+        - cities
+      summary: Добавить город
+      responses:
+        '201':
+          description: Город создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createCity'
+        '409':
+          description: Город с таким названием уже существует.
+
+
   /comments/create:
     post:
       tags:
@@ -37,28 +67,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createComment'
-  /comments/:
+                $ref: '#/components/schemas/comment'
+        '401':
+          description: Создавать комментарии могут только авторизованные пользователи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+  /offers/{offerId}/comments/:
     get:
       tags:
         - comments
       summary: Получение списка комментариев к предложению по аренде
-
-      requestBody:
-        description: Идентификатор предложения
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/offerID'
-        required: true
-
       responses:
         '200':
           description: Список комментариев получен
           content:
             application/json:
               schema:
-
+                $ref: '#/components/schemas/comment'
 
 
   /offers/create:
@@ -71,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUser'
+              $ref: '#/components/schemas/createOffer'
         required: true
 
       responses:
@@ -80,9 +108,90 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
-        '409':
-          description: Пользователь с таким email уже существует.
+                $ref: '#/components/schemas/createdOffer'
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Предложения могут создавать только авторизованные пользователи
+
+  /offers/:
+    get:
+      tags:
+        - offers
+      summary: Получение списка предложений
+      requestBody:
+        description: Информация для получения списка предложений
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cityID:
+                  required: false
+                  type: string
+                  example: '63f2e9572f844eb955b3b6fc'
+                count:
+                  required: false
+                  type: number
+                  example: 10
+      responses:
+        '200':
+          description: Список получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerList'
+        '404':
+          description: Предложение не найдено
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получение детальной информации о предложении.
+      responses:
+        '200':
+          description: Предложение создано. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createOffer'
+        '404':
+          description: Предложение не найдено
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения
+      responses:
+        '200':
+          description: Предложение удалено. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createOffer'
+        '401':
+          description: Удалять предложения могут только авторизованные пользователи
+        '404':
+          description: Предложение не найдено
+        '423':
+          description: Удалять можно только свои предложения
+    patch:
+      tags:
+        - offers
+      summary: Редактирование предложения
+      responses:
+        '200':
+          description: Предложение обновлено. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createOffer'
+        '401':
+          description: Редактировать предложения могут только авторизованные пользователи
+        '404':
+          description: Предложение не найдено
+        '423':
+          description: Редактировать можно только свои предложения
 
   /users/register:
     post:
@@ -108,6 +217,7 @@ paths:
                 $ref: '#/components/schemas/user'
         '409':
           description: Пользователь с таким email уже существует.
+
   /users/login:
     post:
       tags:
@@ -138,36 +248,120 @@ paths:
 
 components:
   schemas:
+    cities:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: array
+    createCity:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: array
+
     createComment:
       type: object
 
       properties:
-        text: {
+        text:
           type: string
-        }
-        offerID: {
+        offerID:
           type: string
-        }
-        rating: {
+        rating:
           type: number
-        }
-        userID: {
+        userID:
           type: string
-        }
 
-    comments:
-      type: array
-
-      properties:
-
-
-    offerID:
+    comment:
       type: object
-
       properties:
-        id: {
+        text:
           type: string
-        }
+        rating:
+          type: number
+        userID:
+          type: string
+        createdAt:
+          type: string
+
+    createOffer:
+      type: object
+      properties:
+          title:
+            type: string
+            example: "Тестовое объявление"
+          description:
+            type: string
+            example: "Описание для тестового объявления"
+          cityID:
+            type: string
+            example: "63eb3566ffbd5c72c9cffeb4"
+          imgPreview:
+            type: string
+            example: "3-preview.jpg"
+          images:
+            type: array
+            example: ["house.jpg", "window.jpg"]
+          isPremium:
+            type: boolean
+            example: false,
+          type:
+            type: string
+            example: "house",
+          roomsCount:
+            type: number
+            example: 1,
+          guestsCount:
+            type: number
+            example: 2,
+          price:
+            type: number
+            example: 2500,
+          goods:
+            type: array
+            example: ["Laptop friendly workspace", "Washer", "Towels", "Fridge"]
+          locationOffer:
+            type: array
+            example: [0, 0]
+
+    offerList:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Тестовое объявление"
+        city:
+          type: object
+          items:
+            $ref: "#/components/schemas/cities"
+
+        imgPreview:
+          type: string
+          example: "3-preview.jpg"
+
+        isPremium:
+          type: boolean
+          example: true
+
+        type:
+          type: string
+          example: apartment
+
+        price:
+          type: number
+          example: 10000
+
+        commentCount:
+          type: number
+          example: 5
+
+        rating:
+          type: number
+          example: 4.5
 
     createUser:
       type: object
@@ -175,17 +369,17 @@ components:
       properties:
         name:
           type: string
-          example: Keks
+          example: 'Keks'
         email:
           type: string
-          example: keks@gmail.com
+          example: 'keks@gmail.com'
         type:
           type: string
-          enum: [обычный, pro]
-          example: обычный
+          enum: [ обычный, pro ]
+          example: 'обычный'
         password:
           type: string
-          example: 123456
+          example: '123456'
 
     user:
       type: object
@@ -198,8 +392,3 @@ components:
         email:
           type: string
           example: keks@gmail.com
-
-
-
-
-

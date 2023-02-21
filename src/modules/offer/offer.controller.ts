@@ -19,6 +19,8 @@ import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objec
 import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
 import {DocumentExistsMiddleware} from '../../common/middleware/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
+import HttpError from '../../common/error/http-error.js';
+import {ConfigInterface} from '../../common/config/config.interface.js';
 
 type ParamsGetOfferType = {
   offerId: string;
@@ -28,10 +30,11 @@ type ParamsGetOfferType = {
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController…');
     this.addRoute({
@@ -125,23 +128,39 @@ export default class OfferController extends Controller {
   }
 
   public async delete(
-    {params}: Request<core.ParamsDictionary | ParamsGetOfferType>,
+    {user, params}: Request<core.ParamsDictionary | ParamsGetOfferType>,
     res: Response
   ): Promise<void> {
     const {offerId} = params;
-    const offer = await this.offerService.deleteById(offerId);
+    const offer = await this.offerService.findById(params.offerId);
+    if (offer && (!offer.hostID || user.id !== offer.hostID.id)) {
+      throw new HttpError(
+        StatusCodes.LOCKED,
+        'Вы не можете удалять чужие объявления',
+        'OfferControllerDelete');
+    }
+
+    const deletedOffer = await this.offerService.deleteById(offerId);
 
     await this.commentService.deleteByOfferId(offerId);
-    this.noContent(res, offer);
+    this.noContent(res, deletedOffer);
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsGetOfferType,
+    {body, user, params}: Request<core.ParamsDictionary | ParamsGetOfferType,
       Record<string, unknown>, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
-    const updatedOffer = await this.offerService.updateById(params.offerId, body);
 
+    const offer = await this.offerService.findById(params.offerId);
+    if (offer && (!offer.hostID || user.id !== offer.hostID.id)) {
+      throw new HttpError(
+        StatusCodes.LOCKED,
+        'Вы не можете редактировать чужие объявления',
+        'OfferControllerUpdate');
+    }
+
+    const updatedOffer = await this.offerService.updateById(params.offerId, body);
     this.ok(res, fillDTO(OfferResponse, updatedOffer));
   }
 
