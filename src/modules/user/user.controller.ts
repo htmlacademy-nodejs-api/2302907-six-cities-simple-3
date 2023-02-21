@@ -18,6 +18,7 @@ import {UploadFileMiddleware} from '../../common/middleware/upload-file.middlewa
 import {JWT_ALGORITM} from './user.constant.js';
 import LoggedUserResponse from './response/logged-user.response.js';
 import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
+import UploadAvatarResponse from './response/upload-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -124,6 +125,17 @@ export default class UserController extends Controller {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {filepath: req.file?.path});
+    const {userId} = req.params;
+
+    if (!req.body.user && userId !== req.body.user.id) {
+      throw new HttpError(
+        StatusCodes.LOCKED,
+        'Вы не добавлять аватар для другого пользователя',
+        'OfferControllerDelete');
+    }
+
+    const uploadFile = {avatarURL: req.file?.filename};
+    await this.userService.updateById(userId, uploadFile);
+    this.ok(res, fillDTO(UploadAvatarResponse, uploadFile));
   }
 }
