@@ -8,3 +8,13 @@ export const CITIES: Cities = {
   'Hamburg': [53.550341, 10.000654],
   'Dusseldorf': [51.225402, 6.776314],
 };
+
+export const CITY_RESTRICTIONS = {
+  name: {
+    message: 'Поле name должно быть строкой',
+  },
+  location: {
+    length: 2,
+    message: 'Поле location должно быть массивом чисел из 2 элементов [lat, long]',
+  }
+} as const;

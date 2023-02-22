@@ -2,25 +2,7 @@ import {OfferGeneratorInterface} from './offer-generator.interface.js';
 import {MockDataType} from '../../types/mock-data.type.js';
 import {generateRandomValue, getRandomItem, getRandomItems} from '../../utils/random.js';
 import {CityType} from '../../types/city.type.js';
-
-const RESTRICTIONS = {
-  price: {
-    min: 100,
-    max: 100000,
-  },
-  guestsCount: {
-    min: 1,
-    max: 10,
-  },
-  roomsCount: {
-    min: 1,
-    max: 8,
-  },
-  weekDay: {
-    first: 1,
-    last: 7,
-  }
-} as const;
+import {OFFER_RESTRICTIONS} from '../../modules/offer/offer.constant.js';
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockDataType) {}
@@ -36,9 +18,9 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const images = getRandomItems<string>(offersData.images).join('; ');
     const isPremium = getRandomItem<boolean>(offersData.isPremium);
     const type = getRandomItem<string>(offersData.types);
-    const roomsCount = generateRandomValue(RESTRICTIONS.roomsCount.min, RESTRICTIONS.roomsCount.max).toString();
-    const guestsCount = generateRandomValue(RESTRICTIONS.guestsCount.min, RESTRICTIONS.guestsCount.max).toString();
-    const price = generateRandomValue(RESTRICTIONS.price.min, RESTRICTIONS.price.max).toString();
+    const roomsCount = generateRandomValue(OFFER_RESTRICTIONS.roomsCount.min, OFFER_RESTRICTIONS.roomsCount.max).toString();
+    const guestsCount = generateRandomValue(OFFER_RESTRICTIONS.guestsCount.min, OFFER_RESTRICTIONS.guestsCount.max).toString();
+    const price = generateRandomValue(OFFER_RESTRICTIONS.price.min, OFFER_RESTRICTIONS.price.max).toString();
     const goods = getRandomItems<string>(offersData.goods).join('; ');
 
 

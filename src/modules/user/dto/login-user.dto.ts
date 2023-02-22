@@ -1,10 +1,11 @@
 import {IsEmail, IsString} from 'class-validator';
+import {USER_RESTRICTIONS} from '../user.constant.js';
 
 export default class LoginUserDto {
 
-  @IsEmail({}, {message: 'Email должен быть валидным'})
+  @IsEmail({}, {message: USER_RESTRICTIONS.email.message})
   public email!: string;
 
-  @IsString({message: 'Пароль обязателен'})
+  @IsString({message: USER_RESTRICTIONS.password.message.string})
   public password!: string;
 }
