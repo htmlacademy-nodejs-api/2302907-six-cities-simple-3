@@ -1,16 +1,17 @@
 import {IsInt, IsMongoId, IsString, Length, Max, Min} from 'class-validator';
+import {COMMENT_RESTRICTIONS} from '../comment.constant.js';
 
 export default class CreateCommentDto {
-  @IsString({message: 'Поле name должно быть строкой'})
-  @Length(5, 1024, {message: 'Длина текста комментария может быть от 2 до 1024 символов'})
+  @IsString({message: COMMENT_RESTRICTIONS.text.message.string})
+  @Length(COMMENT_RESTRICTIONS.text.minLength, COMMENT_RESTRICTIONS.text.maxLength, {message: COMMENT_RESTRICTIONS.text.message.length})
   public text!: string;
 
-  @IsMongoId({message: 'Поле offerID должно содержать id предложения'})
+  @IsMongoId({message: COMMENT_RESTRICTIONS.offerID.message})
   public offerID!: string;
 
-  @IsInt({message: 'Поле rating должно быть числом'})
-  @Min(1, {message: 'Поле rating должно быть целым числом от 1 до 5'})
-  @Max(5, {message: 'Поле rating должно быть целым числом от 1 до 5'})
+  @IsInt({message: COMMENT_RESTRICTIONS.rating.message.int})
+  @Min(COMMENT_RESTRICTIONS.rating.min, {message: COMMENT_RESTRICTIONS.rating.message.minMax})
+  @Max(COMMENT_RESTRICTIONS.rating.max, {message: COMMENT_RESTRICTIONS.rating.message.minMax})
   public rating!: number;
 
   public userID!: string;

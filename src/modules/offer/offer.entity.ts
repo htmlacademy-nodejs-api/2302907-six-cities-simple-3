@@ -18,16 +18,12 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     trim: true,
     required: true,
-    minlength: [10, 'Название слишком короткое. Должно содержать от 10 до 100 символов'],
-    maxlength: [100, 'Название слишком длинное. Должно содержать от 10 до 100 символов'],
   })
   public title!: string;
 
   @prop({
     trim: true,
     required: true,
-    minlength: [20, 'Описание слишком короткое. Должно содержать от 20 до 1024 символов'],
-    maxlength: [1024, 'Описание слишком длинное. Должно содержать от 20 до 1024 символов'],
   })
   public description!: string;
 
@@ -67,24 +63,18 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    min: 1,
-    max: 8,
   })
   public roomsCount!: number;
 
 
   @prop({
     required: true,
-    min: 1,
-    max: 10,
   })
   public guestsCount!: number;
 
 
   @prop({
     required: true,
-    min: 100,
-    max: 100000,
   })
   public price!: number;
 
@@ -106,11 +96,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public locationOffer!: LocationType;
 
-  @prop({
-    required: false,
-    min: 1,
-    max: 5
-  })
+  @prop({required: false})
   public commentCount?: number;
 }
 

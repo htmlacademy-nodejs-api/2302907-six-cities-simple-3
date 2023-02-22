@@ -127,7 +127,7 @@ export default class UserController extends Controller {
   public async uploadAvatar(req: Request, res: Response) {
     const {userId} = req.params;
 
-    if (!req.body.user && userId !== req.body.user.id) {
+    if ((!req.user || !req.user.id) || userId !== req.user.id) {
       throw new HttpError(
         StatusCodes.LOCKED,
         'Вы не можете добавлять аватар для другого пользователя',

@@ -14,8 +14,6 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({
     trim: true,
     required: true,
-    minlength: 5,
-    maxlength: 1024,
   })
   public text!: string;
 
@@ -25,7 +23,7 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   })
   public offerID!: Ref<OfferEntity>;
 
-  @prop({required: true, min: 1, max: 5})
+  @prop({required: true})
   public rating!: number;
 
   @prop({required: true, ref: UserEntity})

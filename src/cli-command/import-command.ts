@@ -17,6 +17,9 @@ import {OfferType} from '../types/offer.type.js';
 import {UserRole} from '../types/user.type.js';
 import {getURI} from '../utils/db.js';
 import 'dotenv/config.js';
+import {ConfigInterface} from '../common/config/config.interface.js';
+import ConfigService from '../common/config/config.service.js';
+
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
@@ -24,20 +27,20 @@ export default class ImportCommand implements CliCommandInterface {
   private cityService!: CityService;
   private offerService!: OfferService;
   private databaseService!: DatabaseService;
-  private logger: LoggerInterface;
-  private salt!: string;
+  private readonly logger: LoggerInterface;
+  private readonly salt!: string;
+  private readonly configService: ConfigInterface;
 
   constructor() {
     this.onRow = this.onRow.bind(this);
     this.onComplete = this.onComplete.bind(this);
 
     this.salt = process.env.SALT || '';
-
     this.logger = new ConsoleLoggerService();
+    this.configService = new ConfigService(this.logger);
     this.offerService = new OfferService(this.logger, OfferModel);
     this.cityService = new CityService(this.logger, CityModel);
     this.userService = new UserService(this.logger, UserModel);
-
     this.databaseService = new DatabaseService(this.logger);
   }
 
@@ -72,11 +75,11 @@ export default class ImportCommand implements CliCommandInterface {
 
   public async execute(filename: string): Promise<void> {
 
-    const user = process.env.DB_USER || '';
-    const password = process.env.DB_PASSWORD || '';
-    const host = process.env.DB_HOST || '127.0.0.1';
-    const port = process.env.DB_PORT ? Number.parseInt(process.env.DB_PORT, 10) : 27017;
-    const dbname = process.env.DB_NAME || '';
+    const user = this.configService.get('DB_USER');
+    const password = this.configService.get('DB_PASSWORD');
+    const host = this.configService.get('DB_HOST');
+    const port = this.configService.get('DB_PORT');
+    const dbname = this.configService.get('DB_NAME');
 
     const uri = getURI(
       user,

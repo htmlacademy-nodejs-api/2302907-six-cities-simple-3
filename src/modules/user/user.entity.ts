@@ -19,20 +19,17 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
 
     this.name = data.name;
     this.email = data.email;
-    this.avatarURL = data.avatarURL || './upload/avatar.png';
+    this.avatarURL = data.avatarURL;
     this.type = data.type;
   }
 
   @prop({
     required: true,
-    minlength: [1, 'Имя не заполнено'],
-    maxlength: [15, 'Слишком длинное имя, максимум 15 символов'],
   })
   public name!: string;
 
   @prop({
     required: true,
-    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,10})?$/, 'Некорректный формат email'],
     unique: true,
   })
   public email!: string;
@@ -54,9 +51,6 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
   public type!: UserRole;
 
   public setPassword(password: string, salt: string) {
-    if (password.length < 6 || password.length > 12) {
-      throw new Error('Длина пароля должна быть от 6 до 12 символов');
-    }
     this.password = createSHA256(password, salt);
   }
 

@@ -1,19 +1,25 @@
 import {UserRole} from '../../../types/user.type.js';
-import {IsEmail, IsEnum, IsString, Length, MinLength} from 'class-validator';
+import {IsEmail, IsEnum, IsString, Length} from 'class-validator';
+import {USER_RESTRICTIONS} from '../user.constant.js';
 
-// почему здесь password public?
 export default class CreateUserDto {
-  @IsString({message: 'name должно быть строкой'})
-  @Length(1, 15, {message: 'name должно содержать от 1 до 15 символов'})
+  @IsString({message: USER_RESTRICTIONS.name.message.string})
+  @Length(
+    USER_RESTRICTIONS.name.minLength,
+    USER_RESTRICTIONS.name.maxLength,
+    {message: USER_RESTRICTIONS.name.message.length})
   public name!: string;
 
-  @IsEmail({}, {message: 'Email должен быть валидным'})
+  @IsEmail({}, {message: USER_RESTRICTIONS.email.message})
   public email!: string;
 
-  @IsString({message: 'Пароль обязателен'})
-  @MinLength(6, {message: 'Пароль должен содержать не менее 6 символов'})
+  @IsString({message: USER_RESTRICTIONS.password.message.string})
+  @Length(
+    USER_RESTRICTIONS.password.minLength,
+    USER_RESTRICTIONS.password.maxLength,
+    {message: USER_RESTRICTIONS.password.message.length})
   public password!: string;
 
-  @IsEnum(UserRole, {message: 'Тип может быть или "обычный", или "pro"'})
+  @IsEnum(UserRole, {message: USER_RESTRICTIONS.type.message})
   public type!: UserRole;
 }

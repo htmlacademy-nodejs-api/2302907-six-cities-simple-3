@@ -1,23 +1,30 @@
 import {UserRole} from '../../../types/user.type.js';
-import {IsEnum, IsOptional, IsString, Length, MinLength} from 'class-validator';
+import {IsEnum, IsOptional, IsString, Length} from 'class-validator';
+import {USER_RESTRICTIONS} from '../user.constant.js';
 
 // почему здесь password public?
 export default class UpdateUserDto {
   @IsOptional()
-  @IsString({message: 'name должно быть строкой'})
-  @Length(1, 15, {message: 'name должно содержать от 1 до 15 символов'})
+  @IsString({message: USER_RESTRICTIONS.name.message.string})
+  @Length(
+    USER_RESTRICTIONS.name.minLength,
+    USER_RESTRICTIONS.name.maxLength,
+    {message: USER_RESTRICTIONS.name.message.length})
   public name?: string;
 
   @IsOptional()
-  @IsString({message: 'Пароль обязателен'})
-  @MinLength(6, {message: 'Пароль должен содержать не менее 6 символов'})
+  @IsString({message: USER_RESTRICTIONS.password.message.string})
+  @Length(
+    USER_RESTRICTIONS.password.minLength,
+    USER_RESTRICTIONS.password.maxLength,
+    {message: USER_RESTRICTIONS.password.message.length})
   public password?: string;
 
   @IsOptional()
-  @IsEnum(UserRole, {message: 'Тип может быть или "обычный", или "pro"'})
+  @IsEnum(UserRole, {message: USER_RESTRICTIONS.type.message})
   public type?: UserRole;
 
   @IsOptional()
-  @IsString({message: 'AvatarURL должен быть строкой'})
+  @IsString({message: USER_RESTRICTIONS.avatar.message})
   public avatarURL?: string;
 }
